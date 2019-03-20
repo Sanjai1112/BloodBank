@@ -6,7 +6,8 @@ class Posts extends Component {
     fetchedDatas: [],
     isError: false,
     errorMessage: "",
-    showFullMessageToggle: false
+    showFullMessageToggle: false,
+    id: ""
   };
   componentWillMount() {
     console.log("Posts Component is called");
@@ -21,9 +22,13 @@ class Posts extends Component {
         this.setState({ isError: true, errorMessage: err.message });
       });
   }
-  handleClick = () => {
-    console.log("Toggle is called");
-    this.setState({ showFullMessageToggle: !this.state.showFullMessageToggle });
+  handleClick = id => {
+    // console.log("Toggle entered");
+    console.log(id);
+    this.setState({
+      showFullMessageToggle: !this.state.showFullMessageToggle,
+      id: id
+    });
   };
   render() {
     console.log("Posts called");
@@ -36,10 +41,12 @@ class Posts extends Component {
             <div
               key={data._id}
               className="posts"
-              onClick={this.handleClick}
+              onClick={this.handleClick.bind(this, data._id)}
               style={
-                this.state.showFullMessageToggle
-                  ? { height: "110px" }
+                this.state.id === data._id
+                  ? this.state.showFullMessageToggle
+                    ? { height: "110px" }
+                    : { height: "60px" }
                   : { height: "60px" }
               }
             >
