@@ -3,10 +3,11 @@ import "../Login/login.scss";
 import "./PostDetails.scss";
 class PostDetails extends Component {
   state = {
-    hospitalName: "",
+    // hospitalName: "",
     patientName: "",
     bloodGroup: "",
     contactNumber: "",
+    additionalMessage: "",
     address: "",
     isError: false,
     errorMessage: ""
@@ -22,11 +23,12 @@ class PostDetails extends Component {
   };
   handleClick = () => {
     console.log("submit clicked");
-    if (this.state.hospitalName.trim() === "") {
-      this.setState({ isError: true, errorMessage: "Hospital name is empty" });
-      this.hospitalRef.focus();
-      return;
-    } else if (this.state.patientName.trim() === "") {
+    // if (this.state.hospitalName.trim() === "") {
+    //   this.setState({ isError: true, errorMessage: "Hospital name is empty" });
+    //   this.hospitalRef.focus();
+    //   return;
+    // } else
+    if (this.state.patientName.trim() === "") {
       this.setState({ isError: true, errorMessage: "Patient name is empty" });
       this.patientRef.focus();
       return;
@@ -38,6 +40,12 @@ class PostDetails extends Component {
       this.setState({ isError: true, errorMessage: "Contact number is empty" });
       this.contactRef.focus();
       return;
+    } else if (this.state.additionalMessage.trim() === "") {
+      this.setState({
+        isError: true,
+        errorMessage: "Additional message is empty"
+      });
+      return;
     } else if (this.state.address.trim() === "") {
       this.setState({ isError: true, errorMessage: "Address is empty" });
       return;
@@ -46,10 +54,11 @@ class PostDetails extends Component {
       this.setState({ isError: false, errorMessage: "" });
     }
     this.setState({
-      hospitalName: "",
+      // hospitalName: "",
       patientName: "",
       bloodGroup: "",
       contactNumber: "",
+      additionalMessage: "",
       address: ""
     });
   };
@@ -62,14 +71,14 @@ class PostDetails extends Component {
         ) : (
           ""
         )}
-        <input
+        {/* <input
           type="text"
           placeholder="Enter the hospital name"
           name="hospitalName"
           ref={ref => (this.hospitalRef = ref)}
           value={this.state.hospitalName}
           onChange={this.handleChange}
-        />
+        /> */}
         <input
           type="text"
           placeholder="Enter the patient name"
@@ -92,6 +101,14 @@ class PostDetails extends Component {
           name="contactNumber"
           ref={ref => (this.contactRef = ref)}
           value={this.state.contactNumber}
+          onChange={this.handleChange}
+        />
+        <textarea
+          className="add-additional"
+          placeholder="Enter additional messages"
+          name="address"
+          ref={ref => (this.additionalMessageRef = ref)}
+          value={this.state.additionalMessage}
           onChange={this.handleChange}
         />
         <textarea
