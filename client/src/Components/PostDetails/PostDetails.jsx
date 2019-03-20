@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router";
 import "../Login/login.scss";
 import "./PostDetails.scss";
+import axios from "axios";
 class PostDetails extends Component {
   state = {
     // hospitalName: "",
@@ -10,7 +12,8 @@ class PostDetails extends Component {
     additionalMessage: "",
     address: "",
     isError: false,
-    errorMessage: ""
+    errorMessage: "",
+    redirect: false
   };
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -22,7 +25,6 @@ class PostDetails extends Component {
     }
   };
   handleClick = () => {
-    console.log("submit clicked");
     // if (this.state.hospitalName.trim() === "") {
     //   this.setState({ isError: true, errorMessage: "Hospital name is empty" });
     //   this.hospitalRef.focus();
@@ -53,6 +55,13 @@ class PostDetails extends Component {
     if (this.state.isError) {
       this.setState({ isError: false, errorMessage: "" });
     }
+    let {
+      patientName,
+      bloodGroup,
+      contactNumber,
+      additionalMessage,
+      address
+    } = this.state;
     this.setState({
       // hospitalName: "",
       patientName: "",
@@ -61,8 +70,26 @@ class PostDetails extends Component {
       additionalMessage: "",
       address: ""
     });
+    axios
+      .post("http://localhost:3001/details", {
+        patientName,
+        bloodGroup,
+        contactNumber,
+        additionalMessage,
+        address
+      })
+      .then(res => {
+        console.log(res.data.message);
+        if (!res.data.isError) {
+          console.log("Redirect entered");
+          this.setState({ redirect: true });
+        }
+      });
   };
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/details" />;
+    }
     return (
       <div className="login">
         <h4>Add Request</h4>
@@ -106,7 +133,7 @@ class PostDetails extends Component {
         <textarea
           className="add-additional"
           placeholder="Enter additional messages"
-          name="address"
+          name="additionalMessage"
           ref={ref => (this.additionalMessageRef = ref)}
           value={this.state.additionalMessage}
           onChange={this.handleChange}

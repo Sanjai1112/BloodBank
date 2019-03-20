@@ -134,18 +134,18 @@ app.get("/details", (req, res) => {
       console.log("Fetched all informations");
       res.send({ isError: false, message: result });
     }
-  });
+  }).sort({ $natural: -1 }); //$natural:1 || -1 1 will fetch oldest to newset ,-1 newest to oldest
 });
 //Posting the information
 app.post("/details", (req, res) => {
-  let hospitalName = req.body.hospitalName,
-    patientName = req.body.patientName,
+  let patientName = req.body.patientName,
     bloodgroup = req.body.bloodgroup,
     contactNumber = req.body.contactNumber,
-    address = req.body.address,
-    status = req.body.status;
+    additionalMessage = req.body.additionalMessage,
+    address = req.body.address;
+  // status = req.body.status;
   Details.create(
-    { hospitalName, patientName, bloodgroup, contactNumber, address, status },
+    { patientName, bloodgroup, contactNumber, additionalMessage, address },
     (err, result) => {
       if (err) {
         console.log(err.message);
