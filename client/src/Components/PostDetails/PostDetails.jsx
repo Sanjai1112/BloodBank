@@ -62,6 +62,7 @@ class PostDetails extends Component {
       additionalMessage,
       address
     } = this.state;
+    console.log(bloodGroup);
     this.setState({
       // hospitalName: "",
       patientName: "",

@@ -138,14 +138,15 @@ app.get("/details", (req, res) => {
 });
 //Posting the information
 app.post("/details", (req, res) => {
+  // console.log(req.body.bloodGroup);
   let patientName = req.body.patientName,
-    bloodgroup = req.body.bloodgroup,
+    bloodGroup = req.body.bloodGroup,
     contactNumber = req.body.contactNumber,
     additionalMessage = req.body.additionalMessage,
     address = req.body.address;
   // status = req.body.status;
   Details.create(
-    { patientName, bloodgroup, contactNumber, additionalMessage, address },
+    { patientName, bloodGroup, contactNumber, additionalMessage, address },
     (err, result) => {
       if (err) {
         console.log(err.message);
