@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-// import Login from "./Components/Login/Login";
-// import AdminLogin from "./Components/Login/AdminLogin"
+import Login from "./Components/Login/Login";
+import AdminLogin from "./Components/Login/AdminLogin";
 import PostDetails from "./Components/PostDetails/PostDetails";
 import "./App.scss";
 import NavBar from "./Components/NavBar/NavBar";
@@ -9,8 +9,8 @@ class App extends Component {
     return (
       <div className="App">
         <NavBar />
-        {/* <Login /> */}
-        {/* <AdminLogin /> */}
+        <Login />
+        <AdminLogin />
         <PostDetails />
       </div>
     );

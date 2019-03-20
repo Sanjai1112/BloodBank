@@ -33,27 +33,38 @@ class Login extends Component {
     if (event.key === "Enter") this.handleClick();
   };
   handleClick = () => {
-    this.state.label === "Sign Up" ? this.phoneRef.blur() : this.passwordRef.blur();
-    if (this.state.username.trim() === "" || !this.state.username.endsWith("@gmail.com")) {
+    this.state.label === "Sign Up"
+      ? this.phoneRef.blur()
+      : this.passwordRef.blur();
+    if (
+      this.state.username.trim() === "" ||
+      !this.state.username.endsWith("@gmail.com")
+    ) {
+      if (this.state.username.trim() === "") {
+        this.setState({ isError: true, errorMessage: "Email is empty" });
+        this.userNameRef.focus();
+        console.log("Email is empty");
+        return;
+      }
       if (!this.state.username.endsWith("@gmail.com")) {
-        this.setState({ isError: true, errorMessage: "Email should be a valid one" });
+        this.setState({
+          isError: true,
+          errorMessage: "Email should end with @xyz.com"
+        });
         return;
       }
       this.setState({ isError: true, errorMessage: "Email is empty" });
       this.userNameRef.focus();
-      console.log("username is empty")
-      return;
+      console.log("Email is empty");
     }
-    else if (this.state.password.trim() === "") {
-
-      this.setState({ isError: true, errorMessage: "Password is empty" })
+    if (this.state.password.trim() === "") {
+      this.setState({ isError: true, errorMessage: "Password is empty" });
       this.passwordRef.focus();
       console.log("password is empty");
       return;
-    }
-    else if (this.state.label === "Sign Up") {
+    } else if (this.state.label === "Sign Up") {
       if (this.state.name.trim() === "") {
-        this.setState({ isError: true, errorMessage: "Name is empty" })
+        this.setState({ isError: true, errorMessage: "Name is empty" });
         this.nameRef.focus();
         console.log("Name is empty");
         return;
@@ -62,11 +73,14 @@ class Login extends Component {
         this.ageRef.focus();
         console.log("Age is empty");
         return;
-      }
-      else if (this.state.age.trim().length !== 0) {
+      } else if (this.state.age.trim().length !== 0) {
+        console.log("entered");
         let enteredDate = this.state.age.trim().split("/");
         if (enteredDate.length !== 3) {
-          this.setState({ isError: true, errorMessage: "Age should be appropraite" });
+          this.setState({
+            isError: true,
+            errorMessage: "Age should be appropraite"
+          });
           this.ageRef.focus();
           return;
         }
@@ -78,22 +92,29 @@ class Login extends Component {
         let calculate = new Date(diff);
         let currentAge = calculate.getUTCFullYear() - 1970;
         if (currentAge <= 18) {
-          this.setState({ isError: true, errorMessage: "Age shoul be > 18" })
+          this.setState({ isError: true, errorMessage: "Age shoul be > 18" });
+          return;
         }
       }
       if (this.state.bloodgroup.trim() === "") {
-        this.setState({ isError: true, errorMessage: "Blood group  is empty" })
+        this.setState({ isError: true, errorMessage: "Blood group  is empty" });
         this.bloodGroupRef.focus();
         console.log("blood group is empty");
         return;
       }
-      if (this.state.phone.trim() === "" || this.state.phone.trim().length !== 10) {
+      if (
+        this.state.phone.trim() === "" ||
+        this.state.phone.trim().length !== 10
+      ) {
         // console.log(this.state.phone.trim());
         // console.log(this.state.phone.length !== 10);
         // if (!this.state.phone.trim() === "" && this.state.phone.length !== 10) {
         //   console.log("entered")
-        this.setState({ isError: true, errorMessage: "Phone number should be 10 digit number" });
-        console.log("Phone number should be 10 didgit number")
+        this.setState({
+          isError: true,
+          errorMessage: "Phone number should be 10 digit number"
+        });
+        console.log("Phone number should be 10 didgit number");
         //   return;
         // }
         // console.log("called");
@@ -102,57 +123,79 @@ class Login extends Component {
         // console.log("phone number is empty");
         return;
       }
-
     }
     if (this.state.isError)
       //To reset the isError state after user enters the things correct
       this.setState({ isError: false });
     let data;
-    this.state.label === "Sign Up" ? data = {
-      username: this.state.username.trim(),
-      password: this.state.password.trim(),
-      name: this.state.name,
-      age: this.state.age,
-      bloodgroup: this.state.bloodgroup.trim(),
-      phone: this.state.phone.trim(),
-    } : data = {
-      username: this.state.username.trim(),
-      password: this.state.password.trim(),
-    }
+    this.state.label === "Sign Up"
+      ? (data = {
+          username: this.state.username.trim(),
+          password: this.state.password.trim(),
+          name: this.state.name,
+          age: this.state.age,
+          bloodgroup: this.state.bloodgroup.trim(),
+          phone: this.state.phone.trim()
+        })
+      : (data = {
+          username: this.state.username.trim(),
+          password: this.state.password.trim()
+        });
     // console.log(this.state.isLoginRequest);
     // console.log(data);
     if (this.state.isLoginRequest) {
-      axios.post("http://localhost:3001/login", { data }).then((res) => {
+      axios.post("http://localhost:3001/login", { data }).then(res => {
         // console.log(res);
         console.log(res.data.message);
         if (res.data.isError) {
-          this.setState({ isError: res.data.isError, errorMessage: res.data.message });
-        }
-        else {
+          this.setState({
+            isError: res.data.isError,
+            errorMessage: res.data.message
+          });
+        } else {
           this.setState({ showInformation: true });
         }
-      })
-
+      });
     } else {
       console.log("Signup requested");
-      axios.post("http://localhost:3001/signup", { data }).then((res) => {
+      axios.post("http://localhost:3001/signup", { data }).then(res => {
         console.log(res.data.message);
         if (res.data.isError) {
-          this.setState({ isError: res.data.isError, errorMessage: res.data.message });
-        }
-        else {
+          this.setState({
+            isError: res.data.isError,
+            errorMessage: res.data.message
+          });
+        } else {
           this.setState({ showInformation: true });
         }
-      })
+      });
     }
 
-    this.setState({ username: "", password: "", name: "", age: "", bloodgroup: "", phone: "" })
+    this.setState({
+      username: "",
+      password: "",
+      name: "",
+      age: "",
+      bloodgroup: "",
+      phone: ""
+    });
   };
   handleBtnName = () => {
     let btnName = this.state.btnName === "LogIn" ? "Sign Up" : "LogIn";
     let label = this.state.label === "Sign Up" ? "LogIn" : "Sign Up";
     let isLoginRequest = label === "LogIn" ? true : false;
-    this.setState({ btnName: btnName, label: label, isLoginRequest, isError: false, username: "", password: "", name: "", age: "", phone: "", bloodgroup: "" });
+    this.setState({
+      btnName: btnName,
+      label: label,
+      isLoginRequest,
+      isError: false,
+      username: "",
+      password: "",
+      name: "",
+      age: "",
+      phone: "",
+      bloodgroup: ""
+    });
   };
   render() {
     let { label } = this.state;
@@ -160,7 +203,11 @@ class Login extends Component {
     return (
       <div className="login">
         <h4 className="text">{label}</h4>
-        {this.state.isError ? <div className="error-message">{this.state.errorMessage}</div> : ""}
+        {this.state.isError ? (
+          <div className="error-message">{this.state.errorMessage}</div>
+        ) : (
+          ""
+        )}
         <input
           ref={ref => (this.userNameRef = ref)}
           type="email"
@@ -178,16 +225,45 @@ class Login extends Component {
           onChange={this.handleChange}
           onKeyDown={label === "LogIn" ? this.handleKeyDown : null}
         />
-        {
-          label === "Sign Up" ? (
-            <React.Fragment>
-              <input type="text" ref={(ref) => this.nameRef = ref} placeholder="enter your name" name="name" value={this.state.name} onChange={this.handleChange} />
-              <input type="text" ref={(ref) => this.ageRef = ref} placeholder="enter your age (dd/mm/yy)" name="age" value={this.state.age} onChange={this.handleChange} />
-              <input type="text" ref={(ref) => this.bloodGroupRef = ref} placeholder="enter your blood group" name="bloodgroup" value={this.state.bloodgroup} onChange={this.handleChange} />
-              <input type="text" ref={(ref) => this.phoneRef = ref} placeholder="enter your phone number" name="phone" value={this.state.phone} onChange={this.handleChange} onKeyDown={this.handleKeyDown} />
-            </React.Fragment>
-          ) : ""
-        }
+        {label === "Sign Up" ? (
+          <React.Fragment>
+            <input
+              type="text"
+              ref={ref => (this.nameRef = ref)}
+              placeholder="enter your name"
+              name="name"
+              value={this.state.name}
+              onChange={this.handleChange}
+            />
+            <input
+              type="text"
+              ref={ref => (this.ageRef = ref)}
+              placeholder="enter your age (dd/mm/yy)"
+              name="age"
+              value={this.state.age}
+              onChange={this.handleChange}
+            />
+            <input
+              type="text"
+              ref={ref => (this.bloodGroupRef = ref)}
+              placeholder="enter your blood group"
+              name="bloodgroup"
+              value={this.state.bloodgroup}
+              onChange={this.handleChange}
+            />
+            <input
+              type="text"
+              ref={ref => (this.phoneRef = ref)}
+              placeholder="enter your phone number"
+              name="phone"
+              value={this.state.phone}
+              onChange={this.handleChange}
+              onKeyDown={this.handleKeyDown}
+            />
+          </React.Fragment>
+        ) : (
+          ""
+        )}
         <button className="submit" onClick={this.handleClick}>
           Submit
         </button>
