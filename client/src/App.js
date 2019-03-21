@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.scss";
 import NotFound from "./Components/NotFound/NFound";
 import Posts from "./Components/Posts/Posts";
+import Landing from "./Components/LandingPage/Landing";
 // import NavBar from "./Components/NavBar/NavBar";
 
 class App extends Component {
@@ -17,8 +18,9 @@ class App extends Component {
           <Login />
           <AdminLogin />
           <PostDetails /> */}
+          {/* <Landing /> */}
           <Switch>
-            <Route exact path="/" component={Login} />
+            <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/posts" component={PostDetails} />
             <Route exact path="/details" component={Posts} />

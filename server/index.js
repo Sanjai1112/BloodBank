@@ -11,7 +11,7 @@ const Details = require("./Models/detailsSchema");
 
 //Database Connection
 mongoose.connect(
-  "mongodb://sanjai:sanjai@localhost/BloodBank?authSource=admin",
+  "mongodb://localhost:27017/BloodBank",
   { useNewUrlParser: true },
   (err, db) => {
     if (err) console.log("Unable to connect to the mongodb");

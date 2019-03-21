@@ -5,23 +5,33 @@
   padding: 16px;
   &-icon {
     cursor: pointer;
-    width:40px;
+    width: 40px;
     height: 40px;
     background: transparent;
     border-radius: 25px;
   }
-  &-signout {
+  .btn-group {
+    display: flex;
+    width: 200px;
+    justify-content: space-between;
+  }
+  &-signout,
+  &-signup,
+  &-signin {
     border: 2px solid rgba(255, 0, 0, 0.25);
     background: rgba(255, 0, 0, 0.75);
     box-shadow: 0px 0px 2px 4px rgba(0, 0, 0, 0.25);
     outline: none;
     color: white;
     font-weight: bold;
-    padding: 6px 12px;
+    padding: 2px 4px;
     border-radius: 24px;
+    width: 85px;
+    height: 35px;
+    box-sizing: border-box;
     font-weight: bolder;
     cursor: pointer;
-    &:hover{
+    &:hover {
       background: rgba(255, 0, 0, 1);
     }
   }
