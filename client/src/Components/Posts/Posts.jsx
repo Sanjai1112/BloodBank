@@ -10,30 +10,31 @@ class Posts extends Component {
     id: ""
   };
   componentWillMount() {
-    console.log("Posts Component is called");
+    console.log("Posts Component's ComponentwillMount is called");
     axios
       .get("http://localhost:3001/details")
       .then(res => {
-        console.log(res.data.message);
-        console.log(typeof res.data.message);
+        // console.log(res.data.message);
+        // console.log(typeof res.data.message);
         this.setState({ fetchedDatas: res.data.message });
       })
       .catch(err => {
+        console.log("Error occured " + err.messages);
         this.setState({ isError: true, errorMessage: err.message });
       });
   }
   handleClick = id => {
     // console.log("Toggle entered");
-    console.log(id);
+    // console.log(id);
     this.setState({
       showFullMessageToggle: !this.state.showFullMessageToggle,
       id: id
     });
   };
   render() {
-    console.log("Posts called");
-    console.log(typeof this.state.fetchedDatas);
-    console.log(this.state.fetchedDatas);
+    // console.log("Posts called");
+    // console.log(typeof this.state.fetchedDatas);
+    // console.log(this.state.fetchedDatas);
     return (
       <div>
         {this.state.fetchedDatas.map(data => {
