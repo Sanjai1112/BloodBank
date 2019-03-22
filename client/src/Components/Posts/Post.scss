@@ -6,10 +6,9 @@
   margin-top: 16px;
   cursor: pointer;
   padding: 14px;
-  // height: 60px;
   overflow: hidden;
   box-sizing: border-box;
-  transition: 500ms cubic-bezier(0.445, 0.05, 0.55, 0.95) height;
+  // transition: 500ms cubic-bezier(0.445, 0.05, 0.55, 0.95) all;
   h4 {
     margin: 0;
     font-size: 14px;
@@ -18,7 +17,7 @@
     font-family: cursive;
   }
   &-title_head {
-    font-weight: bold;
+    font-weight: bolder;
   }
   &-title_name {
     text-transform: uppercase;
@@ -26,13 +25,13 @@
   &-details {
     display: flex;
     justify-content: space-between;
-    margin-top: 6px;
+    margin-top: 10px;
   }
-  address {
-    margin-top: 6px;
-  }
-  &-message {
+
+  &-message,
+  .address {
     margin: 0;
-    margin-top: 4px;
+    margin-top: 10px;
+    width: 100%;
   }
 }

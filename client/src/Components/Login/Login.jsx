@@ -4,6 +4,7 @@ import "./login.scss";
 import NormalBtn from "../Buttons/NormalBtn";
 import GmailBtn from "../Buttons/GmailBtn";
 import axios from "axios";
+import { Redirect } from "react-router";
 class Login extends Component {
   constructor(props) {
     super();
@@ -198,6 +199,7 @@ class Login extends Component {
     });
   };
   render() {
+    if (this.state.showInformation) return <Redirect to="/details" />;
     let { label } = this.state;
     // console.log(this.state.isLoginRequest);
     return (

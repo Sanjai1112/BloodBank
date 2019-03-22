@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -11,7 +12,7 @@ const Details = require("./Models/detailsSchema");
 
 //Database Connection
 mongoose.connect(
-  "mongodb://localhost:27017/BloodBank",
+  process.env.DATABASE_NAME,
   { useNewUrlParser: true },
   (err, db) => {
     if (err) console.log("Unable to connect to the mongodb");
@@ -157,6 +158,10 @@ app.post("/details", (req, res) => {
       }
     }
   );
+});
+
+app.get("/logout", (rrq, re) => {
+  res.send({ message: "Sigout called" });
 });
 //Server listening to the port
 const PORT = process.env.PORT || 3001;

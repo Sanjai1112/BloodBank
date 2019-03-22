@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import "./navbar.scss";
 import { Redirect } from "react-router";
 class NavBar extends Component {
-  state = { signin: false, signup: false };
+  state = { signin: false, signup: false, addPost: false, signout: false };
   signupClicked = () => {
     // <Redirect to="/login" />;
     this.setState({ signup: true });
@@ -12,11 +12,19 @@ class NavBar extends Component {
     // <Redirect to="/login" />;
     this.setState({ signin: true });
   };
+  addPost = () => {
+    this.setState({ addPost: true });
+  };
+  signoutClicked = () => {
+    this.setState({ signout: true });
+  };
   render() {
     if (this.state.signin) return <Redirect to="/login" />;
     if (this.state.signup) return <Redirect to="/login" />;
-    let { label, landing } = this.props;
-    console.log(landing);
+    if (this.state.addPost) return <Redirect to="/posts" />;
+    if (this.state.signout) return <Redirect to="/login" />;
+    let { landing } = this.props;
+    // console.log(landing);
     return (
       <div className="navbar">
         <div>
@@ -36,7 +44,14 @@ class NavBar extends Component {
             </button>
           </div>
         ) : (
-          <button className="navbar-signout">{label}</button>
+          <div className="btn-posts_signout">
+            <button className="navbar-add_posts" onClick={this.addPost}>
+              Add Request
+            </button>
+            <button className="navbar-signout" onClick={this.signoutClicked}>
+              Sign Out
+            </button>
+          </div>
         )}
       </div>
     );
@@ -46,6 +61,6 @@ NavBar.proptype = {
   label: PropTypes.string.isRequired
 };
 NavBar.defaultProps = {
-  label: "Sign Out"
+  landing: false
 };
 export default NavBar;

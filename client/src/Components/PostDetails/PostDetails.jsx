@@ -62,7 +62,7 @@ class PostDetails extends Component {
       additionalMessage,
       address
     } = this.state;
-    console.log(bloodGroup);
+    // console.log(bloodGroup);
     this.setState({
       // hospitalName: "",
       patientName: "",
@@ -148,9 +148,17 @@ class PostDetails extends Component {
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
         />
-        <button className="submit" onClick={this.handleClick}>
-          Submit
-        </button>
+        <div className="login-btn_group">
+          <button className="submit" onClick={this.handleClick}>
+            Submit
+          </button>
+          <button
+            className="back"
+            onClick={() => this.setState({ redirect: true })}
+          >
+            back
+          </button>
+        </div>
       </div>
     );
   }

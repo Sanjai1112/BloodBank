@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./Post.scss";
+import NavBar from "../NavBar/NavBar";
 class Posts extends Component {
   state = {
     fetchedDatas: [],
@@ -24,19 +25,15 @@ class Posts extends Component {
       });
   }
   handleClick = id => {
-    // console.log("Toggle entered");
-    // console.log(id);
     this.setState({
       showFullMessageToggle: !this.state.showFullMessageToggle,
       id: id
     });
   };
   render() {
-    // console.log("Posts called");
-    // console.log(typeof this.state.fetchedDatas);
-    // console.log(this.state.fetchedDatas);
     return (
       <div>
+        <NavBar />
         {this.state.fetchedDatas.map(data => {
           return (
             <div
@@ -46,7 +43,7 @@ class Posts extends Component {
               style={
                 this.state.id === data._id
                   ? this.state.showFullMessageToggle
-                    ? { height: "110px" }
+                    ? { minHeight: "60px" }
                     : { height: "60px" }
                   : { height: "60px" }
               }
@@ -65,11 +62,12 @@ class Posts extends Component {
                   <span className="posts-title_name">{data.bloodGroup}</span>
                 </h4>
               </div>
-              <address>
+
+              <p className="address">
                 <span className="posts-title_head">Address</span>:{data.address}
-              </address>
+              </p>
               <p className="posts-message">
-                <span className="posts-title_head">Message</span>
+                <span className="posts-title_head">Message</span>:
                 {data.additionalMessage}
               </p>
             </div>

@@ -2,7 +2,8 @@
   background: #f4f4f4;
   display: flex;
   justify-content: space-between;
-  padding: 16px;
+  padding: 8px;
+  box-sizing: border-box;
   &-icon {
     cursor: pointer;
     width: 40px;
@@ -14,6 +15,29 @@
     display: flex;
     width: 200px;
     justify-content: space-between;
+  }
+  .btn-posts_signout {
+    display: flex;
+    width: 220px;
+    justify-content: space-between;
+  }
+  &-add_posts {
+    border: 2px solid rgba(255, 0, 0, 0.25);
+    background: rgba(255, 0, 0, 0.75);
+    box-shadow: 0px 0px 2px 4px rgba(0, 0, 0, 0.25);
+    outline: none;
+    color: white;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 24px;
+    width: 120px;
+    height: 35px;
+    box-sizing: border-box;
+    font-weight: bolder;
+    cursor: pointer;
+    &:hover {
+      background: rgba(255, 0, 0, 1);
+    }
   }
   &-signout,
   &-signup,
