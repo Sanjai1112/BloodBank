@@ -30,6 +30,7 @@ class Posts extends Component {
       id: id
     });
   };
+  handleDonate = () => {};
   render() {
     return (
       <div>
@@ -70,6 +71,14 @@ class Posts extends Component {
                 <span className="posts-title_head">Message</span>:
                 {data.additionalMessage}
               </p>
+              <div className="posts-btn_group">
+                <button
+                  className="posts-donate_btn"
+                  onClick={this.handleDonate}
+                >
+                  Donate
+                </button>
+              </div>
             </div>
           );
         })}

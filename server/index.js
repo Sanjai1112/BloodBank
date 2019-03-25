@@ -13,7 +13,7 @@ const Details = require("./Models/detailsSchema");
 //Database Connection
 mongoose.connect(
   process.env.DATABASE_NAME,
-  { useNewUrlParser: true },
+  { useCreateIndex: true, useNewUrlParser: true },
   (err, db) => {
     if (err) console.log("Unable to connect to the mongodb");
     else console.log("Connection established to mongdb");
@@ -127,6 +127,7 @@ app.post("/adminlogin", (req, res) => {
 
 //getting the information
 app.get("/details", (req, res) => {
+  // console.log(req);
   Details.find({}, (err, result) => {
     if (err) {
       console.log(err.message);
@@ -160,7 +161,7 @@ app.post("/details", (req, res) => {
   );
 });
 
-app.get("/logout", (rrq, re) => {
+app.get("/logout", (req, res) => {
   res.send({ message: "Sigout called" });
 });
 //Server listening to the port

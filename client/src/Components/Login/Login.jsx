@@ -75,7 +75,7 @@ class Login extends Component {
         console.log("Age is empty");
         return;
       } else if (this.state.age.trim().length !== 0) {
-        console.log("entered");
+        // console.log("entered");
         let enteredDate = this.state.age.trim().split("/");
         if (enteredDate.length !== 3) {
           this.setState({
@@ -160,6 +160,7 @@ class Login extends Component {
     } else {
       console.log("Signup requested");
       axios.post("http://localhost:3001/signup", { data }).then(res => {
+        console.log(res);
         console.log(res.data.message);
         if (res.data.isError) {
           this.setState({

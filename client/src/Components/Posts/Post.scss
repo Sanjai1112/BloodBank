@@ -34,4 +34,26 @@
     margin-top: 10px;
     width: 100%;
   }
+  &-btn_group {
+    display: flex;
+    justify-content: flex-end;
+    margin: 2px 0px;
+    padding: 2px;
+    box-sizing: border-box;
+  }
+  &-donate_btn {
+    border: 1px solid rgba($color: #ff0000, $alpha: 0.75);
+    background: rgba($color: #ff0000, $alpha: 0.75);
+    padding: 6px 4px;
+    box-shadow: 0px 0px 0px 3.3px rgba($color: #ff0000, $alpha: 0.45);
+    font-weight: bold;
+    font-size: 13.5px;
+    outline: none;
+    cursor: pointer;
+    z-index: 9999;
+    letter-spacing: 1.5px;
+    width: 29%;
+    color: white;
+    border-radius: 25px;
+  }
 }
