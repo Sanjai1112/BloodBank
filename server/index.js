@@ -8,6 +8,8 @@ const urlencode = require("urlencode");
 const username = process.env.TEXTLOCAL_USERNAME;
 const hash = process.env.TEXTLOCAL_API;
 const sender = "txtlcl";
+// const path = require("path");
+// const ejs = require("ejs");
 // const cors = require("cors");
 
 //Schemas
@@ -40,11 +42,18 @@ app.use(function(req, res, next) {
   next();
 });
 
+// app.use(express.static(__dirname + "/../client/public"));
+// console.log(__dirname + "/../client/public");
+
+// app.set("view engine", "html");
+// app.engine("html", ejs.renderFile);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //initial page
+// console.log(__dirname);
+
 app.get("/", (req, res) => {
-  res.send({ message: "I'm alive" });
+  res.send("I'm alive");
 });
 // donorlist.map(data => {
 //   Donor.create(data, (err, result) => {
