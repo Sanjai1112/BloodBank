@@ -62,3 +62,20 @@
     margin-bottom: 6px;
   }
 }
+@media (max-width: 320px) {
+  .login {
+    width: 90vw;
+  }
+  input {
+    width: 70%;
+  }
+  .login .btn-wrap {
+    width: 80vw;
+  }
+}
+
+@media (min-width: 321px) and(max-width: 480px) {
+  .login {
+    width: 70vw;
+  }
+}

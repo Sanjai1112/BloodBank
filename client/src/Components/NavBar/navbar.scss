@@ -4,6 +4,8 @@
   justify-content: space-between;
   padding: 8px;
   box-sizing: border-box;
+  width: 100%;
+  height: 50px;
   &-icon {
     cursor: pointer;
     width: 40px;
@@ -30,8 +32,8 @@
     font-weight: bold;
     padding: 2px 4px;
     border-radius: 24px;
-    width: 120px;
-    height: 35px;
+    width: 115px;
+    height: 30px;
     box-sizing: border-box;
     font-weight: bolder;
     cursor: pointer;
@@ -51,7 +53,7 @@
     padding: 2px 4px;
     border-radius: 24px;
     width: 85px;
-    height: 35px;
+    height: 30px;
     box-sizing: border-box;
     font-weight: bolder;
     cursor: pointer;
@@ -60,3 +62,22 @@
     }
   }
 }
+// @media (max-width: 480px) and (min-width: 320px) {
+//   .btn-group {
+//     width: 180px;
+//   }
+//   .btn-posts_signout {
+//     width: 200px;
+//     padding: 2px 4px;
+//   }
+//   .navbar-add_posts {
+//     width: 80px;
+//     font-size: 18px;
+//   }
+//   .navbar-signout,
+//   .navbar-signup,
+//   .navbar-signin {
+//     width: 80px;
+//     font-size: 12px;
+//   }
+// }
