@@ -68,7 +68,9 @@ class Adminlogin extends Component {
   };
   render() {
     if (this.state.showPostDetails) {
-      return <Redirect to="/details" />;
+      return (
+        <Redirect to={{ pathname: "/details", state: { signedIn: true } }} />
+      );
     }
     return (
       <div className="login">
