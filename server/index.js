@@ -190,9 +190,9 @@ app.post("/details", (req, res) => {
           str += chunk;
         }); //the whole response has been recieved, so we just print it out here
         response.on("end", function() {
-          console.log(str);
+          console.log(str); //logs the message details
         });
-      }; //console.log('hello js'))
+      };
       http.request(options, callback).end(); //url encode instalation need to use $ npm install urlencode
     }
   }).limit(1);

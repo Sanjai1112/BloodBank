@@ -76,12 +76,16 @@ class Posts extends Component {
                 {data.additionalMessage}
               </p>
               <div className="posts-btn_group">
-                <button
-                  className="posts-donate_btn"
-                  onClick={this.handleDonate}
-                >
-                  Donate
-                </button>
+                {signedIn ? (
+                  <button
+                    className="posts-donate_btn"
+                    onClick={this.handleDonate}
+                  >
+                    Donate
+                  </button>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           );
