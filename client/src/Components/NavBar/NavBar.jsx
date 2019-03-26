@@ -3,7 +3,18 @@ import PropTypes from "prop-types";
 import "./navbar.scss";
 import { Redirect } from "react-router";
 class NavBar extends Component {
-  state = { signin: false, signup: false, addPost: false, signout: false };
+  state = {
+    signin: false,
+    signup: false,
+    addPost: false,
+    signout: false,
+    signedIn: false
+  };
+  componentWillMount() {
+    let { signedIn } = this.props;
+    if (signedIn) this.setState({ signedIn: true });
+    else this.setState({ signedIn: false });
+  }
   signupClicked = () => {
     // <Redirect to="/login" />;
     this.setState({ signup: true });
@@ -16,14 +27,19 @@ class NavBar extends Component {
     this.setState({ addPost: true });
   };
   signoutClicked = () => {
-    this.setState({ signout: true });
+    this.setState({ signout: true, signedIn: false });
   };
   render() {
-    if (this.state.signin) return <Redirect to="/login" />;
+    if (this.state.signin)
+      return (
+        <Redirect
+          to={{ pathname: "/login", state: { signinRequested: true } }}
+        />
+      );
     if (this.state.signup) return <Redirect to="/login" />;
     if (this.state.addPost) return <Redirect to="/posts" />;
     if (this.state.signout) return <Redirect to="/login" />;
-    let { landing } = this.props;
+    // let { landing } = this.props;
     // console.log(landing);
     return (
       <div className="navbar">
@@ -34,7 +50,7 @@ class NavBar extends Component {
             alt="Drop"
           />
         </div>
-        {landing ? (
+        {!this.state.signedIn ? (
           <div className="btn-group">
             <button className="navbar-signup" onClick={this.signupClicked}>
               SignUp
@@ -61,6 +77,7 @@ NavBar.proptype = {
   label: PropTypes.string.isRequired
 };
 NavBar.defaultProps = {
-  landing: false
+  landing: false,
+  signedIn: false
 };
 export default NavBar;

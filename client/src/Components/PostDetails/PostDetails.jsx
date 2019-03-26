@@ -80,7 +80,7 @@ class PostDetails extends Component {
         address
       })
       .then(res => {
-        console.log(res.data.message);
+        // console.log(res.data.message);
         if (!res.data.isError) {
           console.log("Redirect entered");
           this.setState({ redirect: true });
@@ -89,7 +89,9 @@ class PostDetails extends Component {
   };
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/details" />;
+      return (
+        <Redirect to={{ pathname: "/details", state: { signedIn: true } }} />
+      );
     }
     return (
       <div className="login">

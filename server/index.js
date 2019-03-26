@@ -3,23 +3,30 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const http = require("http");
+const urlencode = require("urlencode");
+const username = process.env.TEXTLOCAL_USERNAME;
+const hash = process.env.TEXTLOCAL_API;
+const sender = "txtlcl";
 // const cors = require("cors");
 
 //Schemas
 const User = require("./Models/userSchema");
 const Admin = require("./Models/adminSchema");
 const Details = require("./Models/detailsSchema");
-
+const Donor = require("./Models/donorlis");
 //Database Connection
 mongoose.connect(
   process.env.DATABASE_NAME,
-  { useCreateIndex: true, useNewUrlParser: true },
+  { useNewUrlParser: true },
   (err, db) => {
     if (err) console.log("Unable to connect to the mongodb");
     else console.log("Connection established to mongdb");
   }
 );
 
+// const donorlist = require("./donors_list.json");
+// console.log(donorlist);
 //To avoid cors error,CORS plugin is used
 // app.use(cors({ origin: "http://localhost:3000" }));
 
@@ -39,7 +46,12 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.send({ message: "I'm alive" });
 });
-
+// donorlist.map(data => {
+//   Donor.create(data, (err, result) => {
+//     if (err) console.log(err.message);
+//     else console.log(result);
+//   });
+// });
 //Signup route
 app.post("/signup", async (req, res) => {
   console.log("sign up called");
@@ -142,11 +154,49 @@ app.get("/details", (req, res) => {
 app.post("/details", (req, res) => {
   // console.log(req.body.bloodGroup);
   let patientName = req.body.patientName,
-    bloodGroup = req.body.bloodGroup,
+    bloodGroup = req.body.bloodGroup.toLowerCase(),
     contactNumber = req.body.contactNumber,
     additionalMessage = req.body.additionalMessage,
     address = req.body.address;
   // status = req.body.status;
+  let messageBody = `Blood required for ${patientName} of type ${bloodGroup} admitted at ${address},for contact number:${contactNumber}`;
+  Donor.find({ blood_group: bloodGroup }, (err, result) => {
+    if (err) console.log(err.message);
+    else {
+      console.log(result);
+      // let toNumbers;
+      let sendData;
+      result.map(data => {
+        sendData =
+          "username=" +
+          username +
+          "&hash=" +
+          hash +
+          "&sender=" +
+          sender +
+          "&numbers=" +
+          data.contact_no +
+          "&message=" +
+          urlencode(messageBody);
+      });
+      console.log(sendData);
+      var options = {
+        host: "api.textlocal.in",
+        path: "/send?" + sendData
+      };
+      callback = function(response) {
+        var str = ""; //another chunk of data has been recieved, so append it to `str`
+        response.on("data", function(chunk) {
+          str += chunk;
+        }); //the whole response has been recieved, so we just print it out here
+        response.on("end", function() {
+          console.log(str);
+        });
+      }; //console.log('hello js'))
+      http.request(options, callback).end(); //url encode instalation need to use $ npm install urlencode
+    }
+  }).limit(1);
+
   Details.create(
     { patientName, bloodGroup, contactNumber, additionalMessage, address },
     (err, result) => {

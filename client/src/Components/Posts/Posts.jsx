@@ -32,9 +32,13 @@ class Posts extends Component {
   };
   handleDonate = () => {};
   render() {
+    let signedIn;
+    if (this.props.location.state === undefined) signedIn = false;
+    else signedIn = this.props.location.state.signedIn;
+    // console.log(signedIn);
     return (
       <div>
-        <NavBar />
+        <NavBar signedIn={signedIn} />
         {this.state.fetchedDatas.map(data => {
           return (
             <div
@@ -86,4 +90,7 @@ class Posts extends Component {
     );
   }
 }
+Posts.defaultProps = {
+  signedIn: false
+};
 export default Posts;

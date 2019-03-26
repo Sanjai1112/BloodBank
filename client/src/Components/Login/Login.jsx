@@ -24,6 +24,19 @@ class Login extends Component {
       // isSignupRequest: false
     };
   }
+  componentWillMount() {
+    // console.log(this.props.location.state);
+    if (this.props.location.state === undefined) {
+      this.setState({ label: "Sign Up" });
+      return;
+    }
+    if (this.props.location.state.signinRequested)
+      this.setState({
+        label: "LogIn",
+        btnName: "Sign Up",
+        isLoginRequest: true
+      });
+  }
   componentDidMount() {
     this.userNameRef.focus();
   }
@@ -147,7 +160,7 @@ class Login extends Component {
     if (this.state.isLoginRequest) {
       axios.post("http://localhost:3001/login", { data }).then(res => {
         // console.log(res);
-        console.log(res.data.message);
+        // console.log(res.data.message);
         if (res.data.isError) {
           this.setState({
             isError: res.data.isError,
@@ -200,7 +213,10 @@ class Login extends Component {
     });
   };
   render() {
-    if (this.state.showInformation) return <Redirect to="/details" />;
+    if (this.state.showInformation)
+      return (
+        <Redirect to={{ pathname: "/details", state: { signedIn: true } }} />
+      );
     let { label } = this.state;
     // console.log(this.state.isLoginRequest);
     return (
