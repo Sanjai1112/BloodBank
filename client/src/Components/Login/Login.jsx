@@ -20,7 +20,8 @@ class Login extends Component {
       isLoginRequest: false,
       isError: false,
       errorMessage: "",
-      showInformation: false
+      showInformation: false,
+      currentUser: {}
       // isSignupRequest: false
     };
   }
@@ -167,13 +168,16 @@ class Login extends Component {
             errorMessage: res.data.message
           });
         } else {
-          this.setState({ showInformation: true });
+          this.setState({
+            showInformation: true,
+            currentUser: res.data.message
+          });
         }
       });
     } else {
-      console.log("Signup requested");
+      // console.log("Signup requested");
       axios.post("http://localhost:3001/signup", { data }).then(res => {
-        console.log(res);
+        // console.log(res);
         console.log(res.data.message);
         if (res.data.isError) {
           this.setState({
@@ -181,7 +185,10 @@ class Login extends Component {
             errorMessage: res.data.message
           });
         } else {
-          this.setState({ showInformation: true });
+          this.setState({
+            showInformation: true,
+            currentUser: res.data.message
+          });
         }
       });
     }
@@ -213,9 +220,15 @@ class Login extends Component {
     });
   };
   render() {
+    // console.log(this.state.currentUser);
     if (this.state.showInformation)
       return (
-        <Redirect to={{ pathname: "/details", state: { signedIn: true } }} />
+        <Redirect
+          to={{
+            pathname: "/details",
+            state: { signedIn: true, currentUser: this.state.currentUser }
+          }}
+        />
       );
     let { label } = this.state;
     // console.log(this.state.isLoginRequest);

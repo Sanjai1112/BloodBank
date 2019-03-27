@@ -8,6 +8,7 @@ const urlencode = require("urlencode");
 const username = process.env.TEXTLOCAL_USERNAME;
 const hash = process.env.TEXTLOCAL_API;
 const sender = "txtlcl";
+const methodOverride = require("method-override");
 // const path = require("path");
 // const ejs = require("ejs");
 // const cors = require("cors");
@@ -35,6 +36,7 @@ mongoose.connect(
 //MiddleWare To  avoid cors error
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, HEAD");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
@@ -49,6 +51,8 @@ app.use(function(req, res, next) {
 // app.engine("html", ejs.renderFile);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(methodOverride("_method"));
 //initial page
 // console.log(__dirname);
 
@@ -93,8 +97,22 @@ app.post("/signup", async (req, res) => {
           res.send({ isError: true, message: err.message });
         } else {
           console.log("Success");
-          res.send({ isError: false, message: "Signed Up succesfully" });
+          res.send({
+            isError: false,
+            message: { id: user._id, name: user.name }
+          });
         }
+      }
+    );
+    Donor.create(
+      {
+        name: req.body.data.name,
+        blood_group: req.body.data.bloodgroup.toLowerCase(),
+        contact_no: req.body.data.phone
+      },
+      (err, result) => {
+        if (err) console.log(err.message);
+        else console.log(result);
       }
     );
   } else {
@@ -115,7 +133,10 @@ app.post("/login", (req, res) => {
     } else {
       if (result.password === req.body.data.password) {
         console.log("Successfully logedIn");
-        res.send({ isError: false, message: "Succesfully logedIn" });
+        res.send({
+          isError: false,
+          message: { id: result._id, name: result.name }
+        });
       } else {
         console.log("Username or password is Incorrect");
         res.send({
@@ -131,17 +152,23 @@ app.post("/login", (req, res) => {
 app.post("/adminlogin", (req, res) => {
   console.log("Admin login is called");
   Admin.findOne({ adminname: req.body.adminName }, (err, result) => {
-    console.log(req.body.adminName + " " + req.body.password);
-    console.log(result);
+    // console.log(req.body.adminName + " " + req.body.password);
+    // console.log(result);
     if (result === null || result.length == 0) {
       console.log("Admin Id does not exists");
       res.send({ isError: true, message: "Admin Id does not exists" });
     } else if (err) res.send({ isError: true, message: err.message });
     else {
-      if (result.password === req.body.adminName) {
-        return res.send({ isError: false, message: "Succesfully logged in" });
+      if (result.password === req.body.password) {
+        return res.send({
+          isError: false,
+          message: { adminName: result.adminname, isAdmin: true }
+        });
       }
-      return res.send({ isError: false, message: "Admin logged in" });
+      return res.send({
+        isError: true,
+        message: "Adminname or password is incorrect"
+      });
     }
   });
 });
@@ -220,6 +247,19 @@ app.post("/details", (req, res) => {
   );
 });
 
+app.delete("/details", (req, res) => {
+  let { patientId } = req.body;
+  console.log(patientId);
+  Details.findByIdAndDelete(patientId, (err, result) => {
+    if (err) {
+      console.log(err.message);
+      res.send({ isError: true, message: err.message });
+    } else {
+      console.log("Deleted");
+      res.send({ isError: false, message: result });
+    }
+  });
+});
 app.get("/logout", (req, res) => {
   res.send({ message: "Sigout called" });
 });

@@ -8,7 +8,8 @@ class Adminlogin extends Component {
     password: "",
     isError: false,
     errorMessage: "",
-    showPostDetails: false
+    showPostDetails: false,
+    adminDetails: {}
   };
   componentDidMount() {
     this.mailRef.focus();
@@ -57,19 +58,29 @@ class Adminlogin extends Component {
       .post("http://localhost:3001/adminlogin", { adminName, password })
       .then(res => {
         // console.log(res.data.isError);
-        if (res.data.isError)
+        if (res.data.isError) {
+          // console.log("entered");
           this.setState({
-            isErrorr: res.data.isError,
+            isError: res.data.isError,
             errorMessage: res.data.message
           });
-        else this.setState({ showPostDetails: true });
+        } else
+          this.setState({
+            showPostDetails: true,
+            adminDetails: res.data.message
+          });
       });
     this.setState({ adminName: "", password: "" });
   };
   render() {
     if (this.state.showPostDetails) {
       return (
-        <Redirect to={{ pathname: "/details", state: { signedIn: true } }} />
+        <Redirect
+          to={{
+            pathname: "/details",
+            state: { signedIn: true, adminDetails: this.state.adminDetails }
+          }}
+        />
       );
     }
     return (
