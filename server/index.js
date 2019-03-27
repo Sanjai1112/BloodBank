@@ -222,7 +222,7 @@ app.post("/details", (req, res) => {
           "&message=" +
           urlencode(messageBody);
       });
-      console.log(sendData);
+      // console.log(sendData);
       var options = {
         host: "api.textlocal.in",
         path: "/send?" + sendData
