@@ -168,6 +168,7 @@ class Login extends Component {
             errorMessage: res.data.message
           });
         } else {
+          // console.log(res.data.message);
           this.setState({
             showInformation: true,
             currentUser: res.data.message

@@ -9,6 +9,8 @@ class Posts extends Component {
     errorMessage: "",
     showFullMessageToggle: false,
     id: "",
+    isWarning: false,
+    warningMessage: "",
     currentUser: {}
   };
   componentWillMount() {
@@ -31,9 +33,33 @@ class Posts extends Component {
       id: id
     });
   };
-  handleDonate = (currentUser, patientId) => {
-    console.log(currentUser);
-    console.log(patientId);
+  handleDonate = async (currentUser, patientDetails) => {
+    // console.log(patientDetails);
+    // console.log(currentUser);
+    if (this.state.isWarning) {
+      await this.setState({ isWarning: false });
+    }
+    if (currentUser.bloodgroup !== patientDetails.bloodGroup) {
+      let warningMessage = `You are not a matching donor`;
+      await this.setState({ isWarning: true, warningMessage: warningMessage });
+      return;
+    }
+    if (
+      !(
+        patientDetails.contactNumber.startsWith("91") ||
+        patientDetails.contactNumber.startsWith("+91")
+      )
+    ) {
+      patientDetails.contactNumber = "91" + patientDetails.contactNumber;
+    }
+    axios
+      .post("http://localhost:3001/donate", { currentUser, patientDetails })
+      .then(res => {
+        console.log(res.data.message);
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
   };
 
   handleEdit = patientId => {
@@ -81,13 +107,18 @@ class Posts extends Component {
     return (
       <div>
         <NavBar signedIn={signedIn} />
-
-        {this.state.fetchedDatas.length !== 0 ? (
-          this.state.fetchedDatas.map(data => {
-            return (
-              <div className="posts-grid" key={data._id}>
+        {this.state.isWarning ? (
+          <div className="warning">{this.state.warningMessage}</div>
+        ) : (
+          ""
+        )}
+        <div className="posts-grid">
+          {this.state.fetchedDatas.length !== 0 ? (
+            this.state.fetchedDatas.map(data => {
+              return (
                 <div
                   className="posts"
+                  key={data._id}
                   // style={
                   //   this.state.id === data._id
                   //     ? this.state.showFullMessageToggle
@@ -136,7 +167,7 @@ class Posts extends Component {
                         onClick={this.handleDonate.bind(
                           this,
                           currentUser,
-                          data._id
+                          data
                         )}
                       >
                         Donate
@@ -165,24 +196,24 @@ class Posts extends Component {
                     )}
                   </div>
                 </div>
-              </div>
-            );
-          })
-        ) : (
-          <p
-            style={{
-              textTransform: "uppercase",
-              position: "absolute",
-              left: "50%",
-              top: "30%",
-              margin: "0",
-              letterSpacing: "2px",
-              fontSize: "24px"
-            }}
-          >
-            No posts yet
-          </p>
-        )}
+              );
+            })
+          ) : (
+            <p
+              style={{
+                textTransform: "uppercase",
+                position: "absolute",
+                left: "30%",
+                top: "30%",
+                margin: "0",
+                letterSpacing: "2px",
+                fontSize: "24px"
+              }}
+            >
+              Wait Posts are loading
+            </p>
+          )}
+        </div>
       </div>
     );
   }

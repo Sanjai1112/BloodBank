@@ -133,9 +133,15 @@ app.post("/login", (req, res) => {
     } else {
       if (result.password === req.body.data.password) {
         console.log("Successfully logedIn");
+        console.log(result);
         res.send({
           isError: false,
-          message: { id: result._id, name: result.name }
+          message: {
+            id: result._id,
+            name: result.name,
+            bloodgroup: result.bloodgroup,
+            contactNumber: result.phone
+          }
         });
       } else {
         console.log("Username or password is Incorrect");
@@ -186,6 +192,7 @@ app.get("/details", (req, res) => {
     }
   }).sort({ $natural: -1 }); //$natural:1 || -1 1 will fetch oldest to newset ,-1 newest to oldest
 });
+
 //Posting the information
 app.post("/details", (req, res) => {
   // console.log(req.body.bloodGroup);
@@ -260,9 +267,54 @@ app.delete("/details", (req, res) => {
     }
   });
 });
+
+app.post("/donate", (req, res) => {
+  // console.log(req.body);
+
+  let donorName, donorNumber, patientNumber;
+  donorName = req.body.currentUser.name;
+  donorNumber = req.body.currentUser.contactNumber;
+  patientNumber = req.body.patientDetails.contactNumber;
+
+  // console.log(donorName + " " + donorNumber + " " + patientNumber);
+
+  let sendData, messageBody;
+  messageBody = `${donorName} is interested to donate you,for contact:${donorNumber}`;
+
+  sendData =
+    "username=" +
+    username +
+    "&hash=" +
+    hash +
+    "&sender=" +
+    sender +
+    "&numbers=" +
+    patientNumber +
+    "&message=" +
+    urlencode(messageBody);
+
+  // console.log(sendData);
+  var options = {
+    host: "api.textlocal.in",
+    path: "/send?" + sendData
+  };
+  callback = function(response) {
+    var str = ""; //another chunk of data has been recieved, so append it to `str`
+    response.on("data", function(chunk) {
+      str += chunk;
+    }); //the whole response has been recieved, so we just print it out here
+    response.on("end", function() {
+      console.log(str); //logs the message details
+    });
+  };
+  http.request(options, callback).end(); //url encode instalation need to use $ npm install urlencode
+  res.send({ message: "Donate route is called" });
+});
+
 app.get("/logout", (req, res) => {
   res.send({ message: "Sigout called" });
 });
+
 //Server listening to the port
 const PORT = process.env.PORT || 3001;
 
