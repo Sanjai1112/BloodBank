@@ -8,12 +8,15 @@ class NavBar extends Component {
     signup: false,
     addPost: false,
     signout: false,
-    signedIn: false
+    signedIn: false,
+    currentUser: {}
   };
   componentWillMount() {
-    let { signedIn } = this.props;
-    if (signedIn) this.setState({ signedIn: true });
-    else this.setState({ signedIn: false });
+    let { signedIn, currentUser } = this.props;
+    // console.log(currentUser);
+    if (signedIn) {
+      this.setState({ signedIn: true, currentUser });
+    } else this.setState({ signedIn: false });
   }
   signupClicked = () => {
     // <Redirect to="/login" />;
@@ -37,7 +40,15 @@ class NavBar extends Component {
         />
       );
     if (this.state.signup) return <Redirect to="/login" />;
-    if (this.state.addPost) return <Redirect to="/posts" />;
+    if (this.state.addPost)
+      return (
+        <Redirect
+          to={{
+            pathname: "/posts",
+            state: { currentUser: this.state.currentUser }
+          }}
+        />
+      );
     if (this.state.signout) return <Redirect to="/login" />;
     // let { landing } = this.props;
     // console.log(landing);

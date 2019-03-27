@@ -112,7 +112,7 @@ app.post("/signup", async (req, res) => {
       },
       (err, result) => {
         if (err) console.log(err.message);
-        else console.log(result);
+        // else console.log(result);
       }
     );
   } else {
@@ -133,7 +133,7 @@ app.post("/login", (req, res) => {
     } else {
       if (result.password === req.body.data.password) {
         console.log("Successfully logedIn");
-        console.log(result);
+        // console.log(result);
         res.send({
           isError: false,
           message: {

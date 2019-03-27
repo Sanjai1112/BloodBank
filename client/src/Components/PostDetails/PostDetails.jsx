@@ -88,9 +88,15 @@ class PostDetails extends Component {
       });
   };
   render() {
+    let { currentUser } = this.props.location.state;
     if (this.state.redirect) {
       return (
-        <Redirect to={{ pathname: "/details", state: { signedIn: true } }} />
+        <Redirect
+          to={{
+            pathname: "/details",
+            state: { signedIn: true, currentUser: currentUser }
+          }}
+        />
       );
     }
     return (

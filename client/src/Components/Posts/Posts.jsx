@@ -106,7 +106,7 @@ class Posts extends Component {
     // console.log(currentUser);
     return (
       <div>
-        <NavBar signedIn={signedIn} />
+        <NavBar signedIn={signedIn} currentUser={currentUser} />
         {this.state.isWarning ? (
           <div className="warning">{this.state.warningMessage}</div>
         ) : (
