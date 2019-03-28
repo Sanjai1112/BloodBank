@@ -123,22 +123,27 @@ class Posts extends Component {
           <div className="admin">
             <p>
               <span>Welcome </span>
-              {"  "}
+              {"   "}
               <span>{admin.adminName}</span>
             </p>
           </div>
         ) : (
+          ""
+        )}
+        {signedIn ? (
           <div className="user">
             <p>
               <span>Welcome </span>
               <span>
-                {"  "}
+                {"   "}
                 {currentUser.name}
               </span>
             </p>
           </div>
+        ) : (
+          ""
         )}
-        <div className="main">
+        <div className={!signedIn ? "main" : ""}>
           <div className="posts-grid">
             {this.state.fetchedDatas.length !== 0 ? (
               this.state.fetchedDatas.map(data => {

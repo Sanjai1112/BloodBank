@@ -20,6 +20,9 @@
   top: 20%;
   animation: fadeout 5000ms linear both;
 }
+.main {
+  margin-top: 5%;
+}
 .admin,
 .user {
   width: 20%;
@@ -223,6 +226,9 @@
   .posts-grid {
     grid-template-columns: 1fr;
   }
+  .main {
+    margin-top: 4%;
+  }
 }
 @media (min-width: 480px) and (max-width: 760px) {
   .posts {
@@ -232,12 +238,17 @@
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 10px;
   }
+  .main {
+    margin-top: 11%;
+  }
 }
 @media (min-width: 760px) and (max-width: 1080px) {
   .posts {
     width: 100%;
   }
-
+  .main {
+    margin-top: 8%;
+  }
   .posts-grid {
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
