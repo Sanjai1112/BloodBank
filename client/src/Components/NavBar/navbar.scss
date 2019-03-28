@@ -1,5 +1,8 @@
 .navbar {
-  background: #f4f4f4;
+  // background: #f4f4f4;
+  background: rgba($color: #000000, $alpha: 0.55);
+  position: fixed;
+  top: 0;
   display: flex;
   justify-content: space-between;
   padding: 8px;

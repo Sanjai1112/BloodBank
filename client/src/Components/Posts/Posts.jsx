@@ -117,107 +117,138 @@ class Posts extends Component {
         ) : (
           ""
         )}
-        <div className="posts-grid">
-          {this.state.fetchedDatas.length !== 0 ? (
-            this.state.fetchedDatas.map(data => {
-              return (
-                <div
-                  className="posts"
-                  key={data._id}
-                  // style={
-                  //   this.state.id === data._id
-                  //     ? this.state.showFullMessageToggle
-                  //       ? { minHeight: "60px" }
-                  //       : { height: "60px" }
-                  //     : { height: "60px" }
-                  // }
-                >
+        <div className="main">
+          <div className="posts-grid">
+            {this.state.fetchedDatas.length !== 0 ? (
+              this.state.fetchedDatas.map(data => {
+                return (
                   <div
-                    className="posts-header"
-                    // onClick={this.handleClick.bind(this, data._id)}
+                    className="posts"
+                    key={data._id}
+                    // style={
+                    //   this.state.id === data._id
+                    //     ? this.state.showFullMessageToggle
+                    //       ? { minHeight: "60px" }
+                    //       : { height: "60px" }
+                    //     : { height: "60px" }
+                    // }
                   >
-                    <h4>
-                      <span className="posts-title_head"> Patient Name</span>:
+                    <div
+                      className="posts-header"
+                      // onClick={this.handleClick.bind(this, data._id)}
+                    >
+                      <h4>
+                        <span className="posts-title_head">
+                          {" "}
+                          Patient Name :
+                        </span>
+                        <span className="posts-title_name">
+                          {" "}
+                          {data.patientName}
+                        </span>
+                      </h4>
+                      <div className="posts-details">
+                        <h4>
+                          <span
+                            className="posts-title_head"
+                            style={{ fontFamily: "Work Sans', sans-serif" }}
+                          >
+                            {" "}
+                            Number :
+                          </span>
+                          <span className="posts-title_name">
+                            {" "}
+                            {data.contactNumber}
+                          </span>
+                        </h4>
+                        <h4>
+                          <span
+                            className="posts-title_head"
+                            style={{ fontFamily: "Work Sans', sans-serif" }}
+                          >
+                            Group :
+                          </span>
+                          <span className="posts-title_name">
+                            {" "}
+                            {data.bloodGroup}
+                          </span>
+                        </h4>
+                      </div>
+                    </div>
+                    <p className="address">
+                      <span
+                        className="posts-title_head"
+                        style={{ fontFamily: "Cormorant Garamond', seri" }}
+                      >
+                        Address :
+                      </span>{" "}
+                      <span className="posts-title_name"> {data.address}</span>
+                    </p>
+                    <p className="posts-message">
+                      <span
+                        className="posts-title_head"
+                        style={{ fontFamily: "Work Sans', sans-serif" }}
+                      >
+                        Message :
+                      </span>{" "}
                       <span className="posts-title_name">
-                        {data.patientName}
+                        {data.additionalMessage}
                       </span>
-                    </h4>
-                    <div className="posts-details">
-                      <h4>
-                        <span className="posts-title_head"> Number</span>:
-                        <span className="posts-title_name">
-                          {data.contactNumber}
-                        </span>
-                      </h4>
-                      <h4>
-                        <span className="posts-title_head">Group</span>:
-                        <span className="posts-title_name">
-                          {data.bloodGroup}
-                        </span>
-                      </h4>
+                    </p>
+                    <div className="posts-btn_group">
+                      {!isAdmin && signedIn ? (
+                        <button
+                          className="posts-donate_btn"
+                          onClick={this.handleDonate.bind(
+                            this,
+                            currentUser,
+                            data
+                          )}
+                        >
+                          Donate
+                        </button>
+                      ) : (
+                        ""
+                      )}
+
+                      {admin !== undefined && isAdmin ? (
+                        <div className="posts-control_component">
+                          <button
+                            className="posts-delete_btn"
+                            onClick={this.handleDelete.bind(this, data._id)}
+                          >
+                            Delete
+                          </button>
+                          <button
+                            className="posts-edit_btn"
+                            onClick={this.handleEdit.bind(this, data._id)}
+                          >
+                            Edit
+                          </button>
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
-                  <p className="address">
-                    <span className="posts-title_head">Address</span>:
-                    {data.address}
-                  </p>
-                  <p className="posts-message">
-                    <span className="posts-title_head">Message</span>:
-                    {data.additionalMessage}
-                  </p>
-                  <div className="posts-btn_group">
-                    {!isAdmin && signedIn ? (
-                      <button
-                        className="posts-donate_btn"
-                        onClick={this.handleDonate.bind(
-                          this,
-                          currentUser,
-                          data
-                        )}
-                      >
-                        Donate
-                      </button>
-                    ) : (
-                      ""
-                    )}
-
-                    {admin !== undefined && isAdmin ? (
-                      <div className="posts-control_component">
-                        <button
-                          className="posts-delete_btn"
-                          onClick={this.handleDelete.bind(this, data._id)}
-                        >
-                          Delete
-                        </button>
-                        <button
-                          className="posts-edit_btn"
-                          onClick={this.handleEdit.bind(this, data._id)}
-                        >
-                          Edit
-                        </button>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <p
-              style={{
-                textTransform: "uppercase",
-                position: "absolute",
-                left: "30%",
-                top: "30%",
-                margin: "0",
-                letterSpacing: "2px",
-                fontSize: "24px"
-              }}
-            >
-              Wait Posts are loading
-            </p>
-          )}
+                );
+              })
+            ) : (
+              <p
+                style={{
+                  textTransform: "uppercase",
+                  position: "absolute",
+                  left: "30%",
+                  top: "30%",
+                  margin: "0",
+                  letterSpacing: "2px",
+                  fontSize: "24px"
+                }}
+              >
+                Wait Posts are loading
+              </p>
+            )}
+          </div>
         </div>
       </div>
     );
