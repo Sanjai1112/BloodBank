@@ -53,7 +53,11 @@ class NavBar extends Component {
           }}
         />
       );
-    if (this.state.signout) return <Redirect to="/login" />;
+    if (this.state.signout)
+      return (
+        // <Redirect to={{ pathname: "/login", state: { signedOut: true } }} />
+        <Redirect to="/login" />
+      );
     // let { landing } = this.props;
     // console.log(landing);
     return (

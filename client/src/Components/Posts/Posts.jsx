@@ -14,7 +14,7 @@ class Posts extends Component {
     currentUser: {}
   };
   componentWillMount() {
-    console.log("Posts Component's ComponentwillMount is called");
+    // console.log("Posts Component's ComponentwillMount is called");
     axios
       .get("https://onlinebloodbankmanagement.herokuapp.com/details")
       .then(res => {
@@ -39,8 +39,15 @@ class Posts extends Component {
     if (this.state.isWarning) {
       await this.setState({ isWarning: false });
     }
-    if (currentUser.bloodgroup !== patientDetails.bloodGroup) {
-      let warningMessage = `You are not a matching donor`;
+    // console.log(currentUser.bloodgroup);
+    // console.log(patientDetails.bloodGroup);
+    if (
+      currentUser.bloodgroup.toLowerCase() !==
+      patientDetails.bloodGroup.toLowerCase()
+    ) {
+      let warningMessage = `You are not a matching donor and your blood group is ${
+        currentUser.bloodgroup
+      } and patient blood group is ${patientDetails.bloodGroup}`;
       await this.setState({ isWarning: true, warningMessage: warningMessage });
       return;
     }
@@ -124,7 +131,9 @@ class Posts extends Component {
             <p>
               <span>Welcome </span>
               {"   "}
-              <span>{admin.adminName}</span>
+              <span style={{ textTransform: "capitalize" }}>
+                {admin.adminName}
+              </span>
             </p>
           </div>
         ) : (
@@ -134,7 +143,7 @@ class Posts extends Component {
           <div className="user">
             <p>
               <span>Welcome </span>
-              <span>
+              <span style={{ textTransform: "capitalize" }}>
                 {"   "}
                 {currentUser.name}
               </span>

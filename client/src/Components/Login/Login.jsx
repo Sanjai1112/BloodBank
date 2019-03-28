@@ -21,7 +21,9 @@ class Login extends Component {
       isError: false,
       errorMessage: "",
       showInformation: false,
-      currentUser: {}
+      currentUser: {},
+      isLoading: false,
+      loadingMessage: ""
       // isSignupRequest: false
     };
   }
@@ -159,6 +161,7 @@ class Login extends Component {
     // console.log(this.state.isLoginRequest);
     // console.log(data);
     if (this.state.isLoginRequest) {
+      this.setState({ isLoading: true, loadingMessage: "Logging you up" });
       axios
         .post("https://onlinebloodbankmanagement.herokuapp.com/login", { data })
         .then(res => {
@@ -167,18 +170,23 @@ class Login extends Component {
           if (res.data.isError) {
             this.setState({
               isError: res.data.isError,
-              errorMessage: res.data.message
+              errorMessage: res.data.message,
+              isLoading: false,
+              loadingMessage: ""
             });
           } else {
             // console.log(res.data.message);
             this.setState({
               showInformation: true,
-              currentUser: res.data.message
+              currentUser: res.data.message,
+              isLoading: false,
+              loadingMessage: ""
             });
           }
         });
     } else {
       // console.log("Signup requested");
+      this.setState({ isLoading: true, loadingMessage: "Signing you up" });
       axios
         .post("https://onlinebloodbankmanagement.herokuapp.com/signup", {
           data
@@ -189,12 +197,16 @@ class Login extends Component {
           if (res.data.isError) {
             this.setState({
               isError: res.data.isError,
-              errorMessage: res.data.message
+              errorMessage: res.data.message,
+              isLoading: false,
+              loadingMessage: ""
             });
           } else {
             this.setState({
               showInformation: true,
-              currentUser: res.data.message
+              currentUser: res.data.message,
+              isLoading: false,
+              loadingMessage: ""
             });
           }
         });
@@ -228,6 +240,14 @@ class Login extends Component {
   };
   render() {
     // console.log(this.state.currentUser);
+    // let signedOut;
+    // console.log(this.props.location.state);
+    // if (this.props.location.state === undefined) signedOut = false;
+    // else {
+    //   signedOut = this.props.location.state.signedOut;
+    //   this.props.location.state = undefined;
+    // }
+
     if (this.state.showInformation)
       return (
         <Redirect
@@ -240,80 +260,98 @@ class Login extends Component {
     let { label } = this.state;
     // console.log(this.state.isLoginRequest);
     return (
-      <div className="login">
-        <h4 className="text">{label}</h4>
-        {this.state.isError ? (
-          <div className="error-message">{this.state.errorMessage}</div>
-        ) : (
-          ""
-        )}
-        <input
-          ref={ref => (this.userNameRef = ref)}
-          type="email"
-          placeholder="Enter your email"
-          name="username"
-          value={this.state.username}
-          onChange={this.handleChange}
-        />
-        <input
-          ref={ref => (this.passwordRef = ref)}
-          type="password"
-          placeholder="Enter your password"
-          name="password"
-          value={this.state.password}
-          onChange={this.handleChange}
-          onKeyDown={label === "LogIn" ? this.handleKeyDown : null}
-        />
-        {label === "Sign Up" ? (
-          <React.Fragment>
-            <input
-              type="text"
-              ref={ref => (this.nameRef = ref)}
-              placeholder="enter your name"
-              name="name"
-              value={this.state.name}
-              onChange={this.handleChange}
-            />
-            <input
-              type="text"
-              ref={ref => (this.ageRef = ref)}
-              placeholder="enter your age (dd/mm/yy)"
-              name="age"
-              value={this.state.age}
-              onChange={this.handleChange}
-            />
-            <input
-              type="text"
-              ref={ref => (this.bloodGroupRef = ref)}
-              placeholder="enter your blood group"
-              name="bloodgroup"
-              value={this.state.bloodgroup}
-              onChange={this.handleChange}
-            />
-            <input
-              type="text"
-              ref={ref => (this.phoneRef = ref)}
-              placeholder="enter your phone number"
-              name="phone"
-              value={this.state.phone}
-              onChange={this.handleChange}
-              onKeyDown={this.handleKeyDown}
-            />
-          </React.Fragment>
-        ) : (
-          ""
-        )}
-        <button className="submit" onClick={this.handleClick}>
-          Submit
-        </button>
-        <div className="btn-wrap">
-          <GmailBtn />
-          <NormalBtn
-            onClick={this.handleBtnName}
-            btnName={this.state.btnName}
+      <React.Fragment>
+        {/* <div>
+          {signedOut ? (
+            <div className="signedout">
+              <p>Signed Out Successfully</p>
+            </div>
+          ) : (
+            ""
+          )}
+        </div> */}
+        <div className="login">
+          {this.state.isLoading ? (
+            <div className="loading">
+              <p>Please wait while {this.state.loadingMessage}</p>
+            </div>
+          ) : (
+            ""
+          )}
+          <h4 className="text">{label}</h4>
+          {this.state.isError ? (
+            <div className="error-message">{this.state.errorMessage}</div>
+          ) : (
+            ""
+          )}
+          <input
+            ref={ref => (this.userNameRef = ref)}
+            type="email"
+            placeholder="Enter your email as username"
+            name="username"
+            value={this.state.username}
+            onChange={this.handleChange}
           />
+          <input
+            ref={ref => (this.passwordRef = ref)}
+            type="password"
+            placeholder="Enter your password"
+            name="password"
+            value={this.state.password}
+            onChange={this.handleChange}
+            onKeyDown={label === "LogIn" ? this.handleKeyDown : null}
+          />
+          {label === "Sign Up" ? (
+            <React.Fragment>
+              <input
+                type="text"
+                ref={ref => (this.nameRef = ref)}
+                placeholder="enter your name"
+                name="name"
+                value={this.state.name}
+                onChange={this.handleChange}
+              />
+              <input
+                type="text"
+                ref={ref => (this.ageRef = ref)}
+                placeholder="enter your age (dd/mm/yy)"
+                name="age"
+                value={this.state.age}
+                onChange={this.handleChange}
+              />
+              <input
+                type="text"
+                ref={ref => (this.bloodGroupRef = ref)}
+                placeholder="enter your blood group"
+                name="bloodgroup"
+                value={this.state.bloodgroup}
+                onChange={this.handleChange}
+              />
+              <input
+                type="text"
+                ref={ref => (this.phoneRef = ref)}
+                placeholder="enter your phone number"
+                name="phone"
+                value={this.state.phone}
+                onChange={this.handleChange}
+                onKeyDown={this.handleKeyDown}
+              />
+            </React.Fragment>
+          ) : (
+            ""
+          )}
+          <button className="submit" onClick={this.handleClick}>
+            Submit
+          </button>
+          <div className="btn-wrap">
+            <GmailBtn />
+            <NormalBtn
+              onClick={this.handleBtnName}
+              btnName={this.state.btnName}
+            />
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
