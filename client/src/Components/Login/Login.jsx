@@ -159,39 +159,45 @@ class Login extends Component {
     // console.log(this.state.isLoginRequest);
     // console.log(data);
     if (this.state.isLoginRequest) {
-      axios.post("http://localhost:3001/login", { data }).then(res => {
-        // console.log(res);
-        // console.log(res.data.message);
-        if (res.data.isError) {
-          this.setState({
-            isError: res.data.isError,
-            errorMessage: res.data.message
-          });
-        } else {
+      axios
+        .post("https://onlinebloodbankmanagement.herokuapp.com/login", { data })
+        .then(res => {
+          // console.log(res);
           // console.log(res.data.message);
-          this.setState({
-            showInformation: true,
-            currentUser: res.data.message
-          });
-        }
-      });
+          if (res.data.isError) {
+            this.setState({
+              isError: res.data.isError,
+              errorMessage: res.data.message
+            });
+          } else {
+            // console.log(res.data.message);
+            this.setState({
+              showInformation: true,
+              currentUser: res.data.message
+            });
+          }
+        });
     } else {
       // console.log("Signup requested");
-      axios.post("http://localhost:3001/signup", { data }).then(res => {
-        // console.log(res);
-        console.log(res.data.message);
-        if (res.data.isError) {
-          this.setState({
-            isError: res.data.isError,
-            errorMessage: res.data.message
-          });
-        } else {
-          this.setState({
-            showInformation: true,
-            currentUser: res.data.message
-          });
-        }
-      });
+      axios
+        .post("https://onlinebloodbankmanagement.herokuapp.com/signup", {
+          data
+        })
+        .then(res => {
+          // console.log(res);
+          console.log(res.data.message);
+          if (res.data.isError) {
+            this.setState({
+              isError: res.data.isError,
+              errorMessage: res.data.message
+            });
+          } else {
+            this.setState({
+              showInformation: true,
+              currentUser: res.data.message
+            });
+          }
+        });
     }
 
     this.setState({

@@ -55,7 +55,10 @@ class Adminlogin extends Component {
     }
     let { adminName, password } = this.state;
     axios
-      .post("http://localhost:3001/adminlogin", { adminName, password })
+      .post("https://onlinebloodbankmanagement.herokuapp.com/adminlogin", {
+        adminName,
+        password
+      })
       .then(res => {
         // console.log(res.data.isError);
         if (res.data.isError) {

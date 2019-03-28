@@ -9,13 +9,14 @@ class NavBar extends Component {
     addPost: false,
     signout: false,
     signedIn: false,
-    currentUser: {}
+    currentUser: {},
+    admin: {}
   };
   componentWillMount() {
-    let { signedIn, currentUser } = this.props;
-    // console.log(currentUser);
+    let { signedIn, currentUser, admin } = this.props;
+    // console.log(admin);
     if (signedIn) {
-      this.setState({ signedIn: true, currentUser });
+      this.setState({ signedIn: true, currentUser, admin });
     } else this.setState({ signedIn: false });
   }
   signupClicked = () => {
@@ -45,7 +46,10 @@ class NavBar extends Component {
         <Redirect
           to={{
             pathname: "/posts",
-            state: { currentUser: this.state.currentUser }
+            state: {
+              currentUser: this.state.currentUser,
+              adminDetails: this.state.admin
+            }
           }}
         />
       );

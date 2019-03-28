@@ -72,7 +72,7 @@ class PostDetails extends Component {
       address: ""
     });
     axios
-      .post("http://localhost:3001/details", {
+      .post("https://onlinebloodbankmanagement.herokuapp.com/details", {
         patientName,
         bloodGroup,
         contactNumber,
@@ -88,13 +88,19 @@ class PostDetails extends Component {
       });
   };
   render() {
-    let { currentUser } = this.props.location.state;
+    let { currentUser, adminDetails } = this.props.location.state;
+    console.log(adminDetails);
+    // if(isAdmin===undefined)
     if (this.state.redirect) {
       return (
         <Redirect
           to={{
             pathname: "/details",
-            state: { signedIn: true, currentUser: currentUser }
+            state: {
+              signedIn: true,
+              currentUser: currentUser,
+              adminDetails: adminDetails
+            }
           }}
         />
       );

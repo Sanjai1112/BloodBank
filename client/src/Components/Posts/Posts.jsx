@@ -16,7 +16,7 @@ class Posts extends Component {
   componentWillMount() {
     console.log("Posts Component's ComponentwillMount is called");
     axios
-      .get("http://localhost:3001/details")
+      .get("https://onlinebloodbankmanagement.herokuapp.com/details")
       .then(res => {
         // console.log(res.data.message);
         // console.log(typeof res.data.message);
@@ -53,7 +53,10 @@ class Posts extends Component {
       patientDetails.contactNumber = "91" + patientDetails.contactNumber;
     }
     axios
-      .post("http://localhost:3001/donate", { currentUser, patientDetails })
+      .post("https://onlinebloodbankmanagement.herokuapp.com/donate", {
+        currentUser,
+        patientDetails
+      })
       .then(res => {
         console.log(res.data.message);
       })
@@ -70,7 +73,9 @@ class Posts extends Component {
   handleDelete = patientId => {
     // console.log(patientId);
     axios
-      .delete("http://localhost:3001/details", { data: { patientId } }) //In axios data object is must to pass the data through req.body
+      .delete("https://onlinebloodbankmanagement.herokuapp.com/details", {
+        data: { patientId }
+      }) //In axios data object is must to pass the data through req.body
       .then(res => {
         // console.log(res.data.isError);
         let { fetchedDatas } = this.state;
@@ -106,7 +111,7 @@ class Posts extends Component {
     // console.log(currentUser);
     return (
       <div>
-        <NavBar signedIn={signedIn} currentUser={currentUser} />
+        <NavBar signedIn={signedIn} currentUser={currentUser} admin={admin} />
         {this.state.isWarning ? (
           <div className="warning">{this.state.warningMessage}</div>
         ) : (
@@ -186,7 +191,7 @@ class Posts extends Component {
                         </button>
                         <button
                           className="posts-edit_btn"
-                          onClick={this.handleDelete.bind(this, data._id)}
+                          onClick={this.handleEdit.bind(this, data._id)}
                         >
                           Edit
                         </button>
