@@ -67,7 +67,7 @@ class Posts extends Component {
 
   handleEdit = patientId => {
     console.log("Edit functionality is not yet implemented");
-    console.log(patientId);
+    // console.log(patientId);
   };
 
   handleDelete = patientId => {
