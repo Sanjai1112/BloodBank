@@ -20,8 +20,36 @@
   top: 20%;
   animation: fadeout 5000ms linear both;
 }
-.main {
-  margin-top: 5%;
+.admin,
+.user {
+  width: 20%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  color: white;
+  position: relative;
+  transform: translateX(-50%);
+  font-weight: 700;
+  margin-top: 6%;
+  // border-radius: 25px;
+  // border: 1px solid #ff9800;
+  // background: #ff9800;
+  // box-shadow: 0 14px 26px -12px rgba(255, 152, 0, 0.42),
+  //   0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(255, 152, 0, 0.2);
+  animation: textalternate 3000ms 1s both;
+  p {
+    margin: 0;
+    align-self: center;
+    letter-spacing: 2px;
+    font-size: 18px;
+  }
+  span:nth-of-type(1) {
+    color: rgba(0, 0, 255, 0.85);
+  }
+  span:nth-of-type(2) {
+    // color: green;
+    animation: colorchange 2000ms 1s both infinite alternate;
+  }
 }
 .posts {
   color: white;
@@ -175,20 +203,30 @@
     top: -50%;
   }
 }
+@keyframes textalternate {
+  0% {
+    left: -10%;
+  }
+  100% {
+    left: 50%;
+  }
+}
+@keyframes colorchange {
+  0% {
+    color: rgba(0, 0, 255, 0.85);
+  }
+  100% {
+    color: green;
+  }
+}
 @media (max-width: 480px) {
   .posts-grid {
     grid-template-columns: 1fr;
-  }
-  .main {
-    margin-top: 15%;
   }
 }
 @media (min-width: 480px) and (max-width: 760px) {
   .posts {
     width: 100%;
-  }
-  .main {
-    margin-top: 12%;
   }
   .posts-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -199,9 +237,7 @@
   .posts {
     width: 100%;
   }
-  .main {
-    margin-top: 10%;
-  }
+
   .posts-grid {
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;

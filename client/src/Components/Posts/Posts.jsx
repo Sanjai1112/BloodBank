@@ -109,6 +109,8 @@ class Posts extends Component {
       // console.log(admin);
     }
     // console.log(currentUser);
+    // console.log(signedIn + " " + currentUser);
+    // console.log(admin);
     return (
       <div>
         <NavBar signedIn={signedIn} currentUser={currentUser} admin={admin} />
@@ -116,6 +118,25 @@ class Posts extends Component {
           <div className="warning">{this.state.warningMessage}</div>
         ) : (
           ""
+        )}
+        {signedIn && isAdmin ? (
+          <div className="admin">
+            <p>
+              <span>Welcome </span>
+              {"  "}
+              <span>{admin.adminName}</span>
+            </p>
+          </div>
+        ) : (
+          <div className="user">
+            <p>
+              <span>Welcome </span>
+              <span>
+                {"  "}
+                {currentUser.name}
+              </span>
+            </p>
+          </div>
         )}
         <div className="main">
           <div className="posts-grid">
