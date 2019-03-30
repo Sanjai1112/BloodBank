@@ -109,7 +109,9 @@ class Posts extends Component {
       isAdmin = false;
     } else {
       signedIn = this.props.location.state.signedIn;
-      currentUser = this.props.location.state.currentUser;
+      if (this.props.location.state === undefined) currentUser = null;
+      else currentUser = this.props.location.state.currentUser;
+      // currentUser = this.props.location.state.currentUser;
       admin = this.props.location.state.adminDetails;
       if (this.props.location.state.adminDetails === undefined) isAdmin = false;
       else isAdmin = this.props.location.state.adminDetails.isAdmin;
@@ -145,7 +147,7 @@ class Posts extends Component {
               <span>Welcome </span>
               <span style={{ textTransform: "capitalize" }}>
                 {"   "}
-                {currentUser.name}
+                {currentUser !== undefined ? currentUser.name : ""}
               </span>
             </p>
           </div>
