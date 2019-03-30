@@ -109,7 +109,7 @@ class Posts extends Component {
       isAdmin = false;
     } else {
       signedIn = this.props.location.state.signedIn;
-      if (this.props.location.state === undefined) currentUser = null;
+      if (this.props.location.state.currentUser === undefined) currentUser = null;
       else currentUser = this.props.location.state.currentUser;
       // currentUser = this.props.location.state.currentUser;
       admin = this.props.location.state.adminDetails;
@@ -141,7 +141,7 @@ class Posts extends Component {
         ) : (
           ""
         )}
-        {signedIn ? (
+        {signedIn && !isAdmin? (
           <div className="user">
             <p>
               <span>Welcome </span>
